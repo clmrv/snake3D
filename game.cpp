@@ -23,7 +23,8 @@ Game::~Game() {
 
 void Game::initSnake() {
     snakeLength = START_LENGTH;
-    snakeDir = SNAKE_NORTH;
+    snakeDir = Direction::north;
+    userDir = Direction::north;
 
     snakePos.y = gameTableSize.y/2 + snakeLength/2 - 1;
     snakePos.x = gameTableSize.x/2;
@@ -46,19 +47,6 @@ void Game::setApple() {
     gameTable[tmp.y][tmp.x] = -1;
 }
 
-void Game::turnLeft() {
-    snakeDir--;
-    if (snakeDir < SNAKE_NORTH)
-        snakeDir = SNAKE_WEST;
-
-}
-
-void Game::turnRight() {
-    snakeDir++;
-    if (snakeDir > SNAKE_WEST)
-        snakeDir = SNAKE_NORTH;
-}
-
 bool Game::checkBorderGameOver() {
     if (snakePos.y >= gameTableSize.y) 
         gameOver = true;
@@ -78,24 +66,41 @@ bool Game::checkBorderGameOver() {
 void Game::forward() {
     bool haveEaten = false;
 
+    // Get user movement
+    switch(snakeDir) {
+    case Direction::north:
+    case Direction::south:
+        if(userDir == Direction::west || userDir == Direction::east) snakeDir = userDir;
+        break;
+    case Direction::east:
+    case Direction::west:
+        if(userDir == Direction::north || userDir == Direction::south) snakeDir = userDir;
+        break;
+    default:
+        break;
+    }
+
     // Move snake
     switch(snakeDir) {
-        case SNAKE_NORTH:
-            snakePos.y++;
-            break;
+    case Direction::north:
+        snakePos.y++;
+        break;
 
-        case SNAKE_EAST:
-            snakePos.x++;
-            break;
+    case Direction::east:
+        snakePos.x++;
+        break;
 
-        case SNAKE_SOUTH:
-            snakePos.y--;   
-            break;
+    case Direction::south:
+        snakePos.y--;   
+        break;
 
-        case SNAKE_WEST:
-            snakePos.x--;
-            break;
+    case Direction::west:
+        snakePos.x--;
+        break;
+    default:
+        break;
     }
+
 
     if (checkBorderGameOver())
         return;
@@ -143,7 +148,10 @@ void Game::showGameTable() {
 
     for (int y=gameTableSize.y-1; y>=0; y--) {
         for (int x=0; x<gameTableSize.x; x++)
-            std::cout << gameTable[y][x] << " ";
+            if(gameTable[y][x] < 0)
+                std::cout << "x ";
+            else
+                std::cout << gameTable[y][x] << " ";
         std::cout << std::endl;
     }
 }

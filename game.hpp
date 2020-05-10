@@ -5,12 +5,7 @@
 
 #define START_LENGTH 3
 
-#define SNAKE_NORTH 101
-#define SNAKE_EAST 102
-#define SNAKE_SOUTH 103
-#define SNAKE_WEST 104
-
-
+enum class Direction { north, east, south, west };
 
 
 struct Point
@@ -36,6 +31,7 @@ public:
     void showGameTable();           // debug
     void setApple(int y, int x);    // debug
 
+    Direction userDir;
 
 private:
     Point gameTableSize;
@@ -43,7 +39,7 @@ private:
 
     int snakeLength;
     Point snakePos;
-    int snakeDir;
+    Direction snakeDir;
     bool gameOver;
  
     bool checkBorderGameOver();
