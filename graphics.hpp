@@ -1,5 +1,17 @@
+#ifndef GRAPHICS_HPP
+#define GRAPHICS_HPP
+
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_SWIZZLE
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
+#include "shaderprogram.h"
+
 
 class Graphics {
 private:
@@ -11,6 +23,11 @@ private:
 
     /// Tablica z "Buffer Object Names"
     GLuint vb;
+
+
+    ShaderProgram *sp;
+
+    const float PI = 3.141592653589793f;
 
     
 public:
@@ -24,3 +41,5 @@ public:
     void draw();
 
 };
+
+#endif
