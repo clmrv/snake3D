@@ -98,17 +98,17 @@ int main() {
     graphics = new Graphics(window);
     game = new Game(10, 10);
 
-    game->showGameTable();
-    game->initSnake();
+    // game->showGameTable();
+    // game->initSnake();
 
     glfwSetTime(0);
     while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
         if(glfwGetTime() >= 1) {
-            if(!game->isGameOver()) {
-                game->forward();
-                game->showGameTable();
-            }
+            // if(!game->isGameOver()) {
+            //     game->forward();
+            //     game->showGameTable();
+            // }
             glfwSetTime(0);
         }
         graphics->draw();

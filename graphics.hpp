@@ -4,7 +4,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-// myCube - testowo
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_SWIZZLE
 #include <GL/glew.h>
@@ -12,10 +11,14 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-#include "myCube/constants.h"
-#include "myCube/shaderprogram.h"
-#include "myCube/myCube.h"
+#include "shader/constants.h"
+#include "shader/shaderprogram.h"
 
+
+#include "drawable.hpp"
+
+struct Drawable;
+struct DrawableArray;
 
 class Graphics {
 private:
@@ -25,11 +28,11 @@ private:
     /// Tablica z "Vertex Array Object Names"
     GLuint vba;
 
-    /// Tablica z "Buffer Object Names"
-    GLuint vb;
+    /// Przykładowy obiekt do narysowania
+    Drawable *d;
 
-    // myCube - testowo
     ShaderProgram *sp;
+
     
 public:
     /// Inicjalizuj grafikę w danym oknie
