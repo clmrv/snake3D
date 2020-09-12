@@ -17,6 +17,8 @@
 
 #include "drawable.hpp"
 
+#include "game.hpp"
+
 struct Drawable;
 struct DrawableArray;
 
@@ -30,13 +32,16 @@ private:
 
     /// Przykładowy obiekt do narysowania
     Drawable *d;
+    Drawable *apple;
 
     ShaderProgram *sp;
 
+    Game* game;
+
     
 public:
-    /// Inicjalizuj grafikę w danym oknie
-    Graphics(GLFWwindow* window);
+    /// Inicjalizuj grafikę w danym oknie, odbierz pointer na tabele z pozycja snake
+    Graphics(GLFWwindow* window, Game* game);
 
     /// Zwolnij zasoby
     ~Graphics();

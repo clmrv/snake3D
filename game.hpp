@@ -1,3 +1,6 @@
+#ifndef GAME_HPP_INCLUDED
+#define GAME_HPP_INCLUDED
+
 #include <iostream> //DEBUG
 #include <cstdlib>  //rand
 #include <time.h>   //rand
@@ -27,6 +30,12 @@ public:
     
     bool isGameOver();
     int** getGameTablePtr();   // info for drawing
+    int getGameTableWidth();
+    int getGameTableHeight();
+    int getSnakeLength();
+    int getHeadDir();
+    int getTailDir();
+    int getBendBodyDir(int y, int x);
     
     void showGameTable();           // debug
     void setApple(int y, int x);    // debug
@@ -45,3 +54,6 @@ private:
     bool checkBorderGameOver();
     void setApple();
 };
+
+
+#endif

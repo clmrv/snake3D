@@ -159,3 +159,81 @@ void Game::showGameTable() {
 void Game::setApple(int y, int x) {
     gameTable[y][x] = -1; 
 }
+
+int Game::getGameTableWidth() {
+    return gameTableSize.x;
+}
+
+int Game::getGameTableHeight() {
+    return gameTableSize.y;
+}
+
+int Game::getSnakeLength() {
+    return snakeLength;
+}
+
+int Game::getHeadDir() {
+    return (int)snakeDir;
+}
+
+int Game::getTailDir() {
+    int tailX, tailY;
+    for (int y=0; y<gameTableSize.y; y++)
+        for (int x=0; x<gameTableSize.x; x++)
+            if (gameTable[y][x] == 1)
+            {
+                tailX = x;
+                tailY = y;
+            }
+    
+    if (tailY+1 < gameTableSize.y)
+        if (gameTable[tailY+1][tailX] == 2)
+            return 0;
+        
+    if (tailY-1 >= 0)
+        if (gameTable[tailY-1][tailX] == 2)
+            return 2;
+    
+    if (tailX+1 < gameTableSize.x)
+        if (gameTable[tailY][tailX+1] == 2)
+            return 1;
+        
+    if (tailX-1 >= 0)
+        if (gameTable[tailY][tailX-1] == 2)
+            return 3;
+
+    return -1;
+}
+
+
+int Game::getBendBodyDir(int y, int x) {
+    if (gameTable[y][x] <= 0 )
+        return -1;
+    
+    bool up = false;
+    bool right = false;
+    bool down = false;
+    bool left = false;
+    
+    if (y+1 < gameTableSize.y)
+        if (abs(gameTable[y+1][x] - gameTable[y][x]) == 1 )
+            up = true;
+        
+    if (y-1 >= 0)
+        if (abs(gameTable[y-1][x] - gameTable[y][x]) == 1 )
+            down = true;
+    
+    if (x+1 < gameTableSize.x)
+        if (abs(gameTable[y][x+1] - gameTable[y][x]) == 1 )
+            right = true;
+
+    if (x-1 >= 0)
+        if (abs(gameTable[y][x-1] - gameTable[y][x]) == 1 )
+            left = true;
+
+    if (down && right)    return 0;
+    if (left && down)    return 1;
+    if (up && left)    return 2;
+    if (right && up)    return 3;
+    return -1;
+}
