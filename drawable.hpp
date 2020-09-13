@@ -6,6 +6,7 @@
 #include "shader/shaderprogram.h"
 #include "glm/glm.hpp"
 #include "tiny_obj_loader.h"
+#include "lodepng/lodepng.h"
 
 using namespace std;
 using namespace glm;
@@ -19,8 +20,15 @@ struct Drawable {
     size_t nSize;
     size_t tSize;
 
+    bool hasTexture = false;
+    GLuint texName;
+
     // Utwórz obiekt z pliku .obj
     Drawable(const char* filename);
+    ~Drawable();
+
+    // Załaduj teksturę
+    void loadTexture(const char* filename);
     
     // Rysuj obiekt na scenie
     void draw(ShaderProgram *sp);

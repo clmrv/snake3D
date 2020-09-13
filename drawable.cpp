@@ -46,20 +46,63 @@ Drawable::Drawable(const char* filename) {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+Drawable::~Drawable() {
+    if(hasTexture) {
+        glDeleteTextures(1, &texName);
+    }
+}
+
 void Drawable::draw(ShaderProgram *sp) {
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 
     glEnableVertexAttribArray(sp->a("vertex"));
     glEnableVertexAttribArray(sp->a("normal"));
+    if(hasTexture) {
+        glEnableVertexAttribArray(sp->a("texCoord"));
+    }
 
     // Draw
     glVertexAttribPointer(sp->a("vertex"), 3, GL_FLOAT, false, 0, (void*)0);
     glVertexAttribPointer(sp->a("normal"), 3, GL_FLOAT, false, 0, (void*)vSize);
+    if(hasTexture) {
+        glVertexAttribPointer(sp->a("texCoord"), 2, GL_FLOAT, false, 0, (void*)(vSize + nSize));
+        glUniform1i(sp->u("textureMap"), 0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texName);
+    }
 
     glDrawArrays(GL_TRIANGLES, 0, count);
 
     glDisableVertexAttribArray(sp->a("vertex"));
     glDisableVertexAttribArray(sp->a("normal"));
+    if(hasTexture) {
+        glDisableVertexAttribArray(sp->a("texCoord"));
+    }
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+
+void Drawable::loadTexture(const char* filename) {
+    glActiveTexture(GL_TEXTURE0);
+
+    vector<unsigned char> image;
+    unsigned width, height;
+
+    unsigned error = lodepng::decode(image, width, height, filename);
+
+    if(error) { return; }
+
+    //Import do pamięci karty graficznej
+    glGenTextures(1, &texName); //Zainicjuj jeden uchwyt
+    glBindTexture(GL_TEXTURE_2D, texName); //Uaktywnij uchwyt
+
+    //Wczytaj obrazek do pamięci KG skojarzonej z uchwytem
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, 
+        GL_RGBA, GL_UNSIGNED_BYTE, (unsigned char*) image.data());  
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    hasTexture = true;
 }

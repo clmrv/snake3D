@@ -33,6 +33,8 @@ private:
     /// Przykładowy obiekt do narysowania
     Drawable *d;
     Drawable *apple;
+    Drawable *grass;
+    Drawable *dirt;
 
     ShaderProgram *sp;
 
@@ -48,6 +50,8 @@ public:
 
     /// Rysuje klatkę animacji
     void draw();
+
+    vec3 cam = vec3(-8, -18.0, -1);
 
 };
 

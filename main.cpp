@@ -36,6 +36,24 @@ void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods) {
         case GLFW_KEY_DOWN:
             game->userDir = Direction::south;
             break;
+        case GLFW_KEY_A:
+            graphics->cam = glm::vec3(graphics->cam.x - 1, graphics->cam.y, graphics->cam.z);
+            break;
+        case GLFW_KEY_D:
+            graphics->cam = glm::vec3(graphics->cam.x + 1, graphics->cam.y, graphics->cam.z);
+            break;
+        case GLFW_KEY_W:
+            graphics->cam = glm::vec3(graphics->cam.x, graphics->cam.y - 1, graphics->cam.z);
+            break;
+        case GLFW_KEY_S:
+            graphics->cam = glm::vec3(graphics->cam.x, graphics->cam.y + 1, graphics->cam.z);
+            break;
+        case GLFW_KEY_Q:
+            graphics->cam = glm::vec3(graphics->cam.x, graphics->cam.y, graphics->cam.z - 1);
+            break;
+        case GLFW_KEY_E:
+            graphics->cam = glm::vec3(graphics->cam.x, graphics->cam.y, graphics->cam.z + 1);
+            break;
         default:
             break;
         }
