@@ -34,7 +34,7 @@ public:
     int getGameTableHeight();
     int getSnakeLength();
     int getHeadDir();
-    int getTailDir();
+    int getBodyDir(int y, int x);
     int getBendBodyDir(int y, int x);
     
     void showGameTable();           // debug

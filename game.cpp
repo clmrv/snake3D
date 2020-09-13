@@ -176,30 +176,21 @@ int Game::getHeadDir() {
     return (int)snakeDir;
 }
 
-int Game::getTailDir() {
-    int tailX, tailY;
-    for (int y=0; y<gameTableSize.y; y++)
-        for (int x=0; x<gameTableSize.x; x++)
-            if (gameTable[y][x] == 1)
-            {
-                tailX = x;
-                tailY = y;
-            }
-    
-    if (tailY+1 < gameTableSize.y)
-        if (gameTable[tailY+1][tailX] == 2)
+int Game::getBodyDir(int y, int x) {
+    if (y+1 < gameTableSize.y)
+        if (gameTable[y+1][x] == gameTable[y][x] + 1)
             return 0;
-        
-    if (tailY-1 >= 0)
-        if (gameTable[tailY-1][tailX] == 2)
+
+    if (y-1 >= 0)
+        if (gameTable[y-1][x] == gameTable[y][x] + 1)
             return 2;
-    
-    if (tailX+1 < gameTableSize.x)
-        if (gameTable[tailY][tailX+1] == 2)
+
+    if (x+1 < gameTableSize.x)
+        if (gameTable[y][x+1] == gameTable[y][x] + 1)
             return 1;
-        
-    if (tailX-1 >= 0)
-        if (gameTable[tailY][tailX-1] == 2)
+
+    if (x-1 >= 0)
+        if (gameTable[y][x-1] == gameTable[y][x] + 1)
             return 3;
 
     return -1;

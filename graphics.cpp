@@ -86,6 +86,9 @@ void Graphics::draw() {
     {
         for(int x=0; x < max_x; x++)
         {
+            // WARNING continue; in head
+
+
             // grass field
             {
                 M = translate(baseM, vec3( -x *3.0, -0.1f, y * 3.0 - 20));
@@ -94,22 +97,14 @@ void Graphics::draw() {
                 glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
                 grass->draw(sp);
             }
-   
-            // snake head
-            if (gameTable[y][x] == game->getSnakeLength())
-            {
-                M = translate(baseM, vec3( -x *3.0, 0.0, y * 3.0 - 20));
-                M = rotate(M, game->getHeadDir()*3.14f/2.0f, vec3(0.0f, 1.0f, 0.0f));
-                M = scale(M, vec3(2.0f, 1.0f, 1.0f));
-                glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
-                d->draw(sp);
-            }
+
+            
 
             // snake tail
             if (gameTable[y][x] == 1)
             {
                 M = translate(baseM, vec3( -x *3.0, 0.0, y * 3.0 - 20));
-                M = rotate(M, game->getTailDir()*3.14f/2.0f, vec3(0.0f, 1.0f, 0.0f));
+                M = rotate(M, game->getBodyDir(y,x)*-PI/2.0f, vec3(0.0f, 1.0f, 0.0f));
                 M = scale(M, vec3(2.0f, 1.0f, 1.0f));
                 glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
                 d->draw(sp);
@@ -119,13 +114,23 @@ void Graphics::draw() {
             if (gameTable[y][x] == -1)
             {
                 M = translate(baseM, vec3( -x *3.0, 0.0, y * 3.0 - 20));
-                M = rotate(M, -3.14f/2.0f, vec3(1.0f, 0.0f, 0.0f));
+                M = rotate(M, -PI/2.0f, vec3(1.0f, 0.0f, 0.0f));
                 //M = scale(M, vec3(0.07f, 0.25f, 0.07f));
                 M = scale(M, vec3(0.02f, 0.02f, 0.02f));
                 glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
                 apple->draw(sp);
             }
 
+            // snake head
+            if (gameTable[y][x] == game->getSnakeLength())
+            {
+                M = translate(baseM, vec3( -x *3.0, 0.0, y * 3.0 - 20));
+                M = rotate(M, game->getHeadDir()*-PI/2.0f, vec3(0.0f, 1.0f, 0.0f));
+                M = scale(M, vec3(2.0f, 1.0f, 1.0f));
+                glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
+                d->draw(sp);
+                continue;
+            }
             // body
             if (gameTable[y][x] > 1)
             {
@@ -133,9 +138,10 @@ void Graphics::draw() {
                 {
                     // parts which bends
                     M = translate(baseM, vec3( -x *3.0, 0.0, y * 3.0 - 20));
-                    M = scale(M, vec3(1.0f, 1.0f, 2.3f));
-                    M = rotate(M, 3.14f/4.0f + 3.14f/2.0f*game->getBendBodyDir(y, x), vec3(0.0f, 1.0f, 0.0f));
-                    // nie jestem pewien, czy w dobra strone sie to obraca, zobaczy sie po wgraniu modelu co nie wyglada jak prostokat xd
+                    
+                    M = rotate(M, -PI/4.0f + -PI/2.0f*game->getBendBodyDir(y, x), vec3(0.0f, 1.0f, 0.0f));
+                    M = scale(M, vec3(1.0f, 1.0f, 1.5f));
+                    // dobrze się obraca, ale zalozylem, ze model wygiety bedzie odbiciem lustrzanym
                     glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
                     d->draw(sp);
                 }
@@ -143,6 +149,7 @@ void Graphics::draw() {
                 {
                     // straight parts
                     M = translate(baseM, vec3( -x *3.0, 0.0, y * 3.0 - 20));
+                    M = rotate(M, -PI/2.0f * game->getBodyDir(y,x), vec3(0.0f, 1.0f, 0.0f));
                     glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
                     d->draw(sp);
                 }
