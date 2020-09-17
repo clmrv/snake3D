@@ -30,6 +30,8 @@ Graphics::Graphics(GLFWwindow* window, Game* game) {
     dirt = new Drawable("./objects/dirt.obj");
     dirt->loadTexture("./objects/dirt.png");
 
+    head = new Drawable("./objects/head.obj");
+
     body = new Drawable("./objects/cylinder.obj");
 
     bendbody = new Drawable("./objects/bend.obj");
@@ -136,7 +138,7 @@ void Graphics::draw() {
                 M = rotate(M, game->getHeadDir()*-PI/2.0f, vec3(0.0f, 1.0f, 0.0f));
                 M = scale(M, vec3(2.0f, 1.0f, 1.0f));
                 glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
-                d->draw(sp);
+                head->draw(sp);
                 continue;
             }
             // body
@@ -145,7 +147,7 @@ void Graphics::draw() {
                 if (game->getBendBodyDir(y, x) >=0)
                 {
                     // parts which bends
-                    M = translate(baseM, vec3( -x *3.0, 1.0, y * 3.0 - 20));
+                    M = translate(baseM, vec3( -x *3.0, 3.0, y * 3.0 - 20));
                     M = rotate(M, -PI/2.0f * game->getBendBodyDir(y,x), vec3(0.0f, 1.0f, 0.0f));
                     M = scale(M, vec3(1.0f, 1.0f, 1.5f));
                     M = rotate(M, PI/2.0f, vec3(1.0f, 0.0f, 0.0f));

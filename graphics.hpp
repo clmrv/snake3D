@@ -38,6 +38,7 @@ private:
     Drawable *body;
     Drawable *tail;
     Drawable *bendbody;
+    Drawable *head;
 
     ShaderProgram *sp;
 
