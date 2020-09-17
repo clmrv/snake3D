@@ -35,6 +35,9 @@ private:
     Drawable *apple;
     Drawable *grass;
     Drawable *dirt;
+    Drawable *body;
+    Drawable *tail;
+    Drawable *bendbody;
 
     ShaderProgram *sp;
 
