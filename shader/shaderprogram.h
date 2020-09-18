@@ -38,6 +38,15 @@ private:
 public:
 	ShaderProgram(const char* vertexShaderFile,const char* geometryShaderFile,const char* fragmentShaderFile);
 	~ShaderProgram();
+
+	GLuint uTextureMap;
+	GLuint uP;
+	GLuint uV;
+	GLuint uM;
+	GLuint aVertex;
+	GLuint aNormal;
+	GLuint aTexCoord;
+
 	void use(); //Włącza wykorzystywanie programu cieniującego
 	GLuint u(const char* variableName); //Pobiera numer slotu związanego z daną zmienną jednorodną
 	GLuint a(const char* variableName); //Pobiera numer slotu związanego z danym atrybutem

@@ -55,28 +55,28 @@ Drawable::~Drawable() {
 void Drawable::draw(ShaderProgram *sp) {
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 
-    glEnableVertexAttribArray(sp->a("vertex"));
-    glEnableVertexAttribArray(sp->a("normal"));
+    glEnableVertexAttribArray(sp->aVertex);
+    glEnableVertexAttribArray(sp->aNormal);
     if(hasTexture) {
-        glEnableVertexAttribArray(sp->a("texCoord"));
+        glEnableVertexAttribArray(sp->aTexCoord);
     }
 
     // Draw
-    glVertexAttribPointer(sp->a("vertex"), 3, GL_FLOAT, false, 0, (void*)0);
-    glVertexAttribPointer(sp->a("normal"), 3, GL_FLOAT, false, 0, (void*)vSize);
+    glVertexAttribPointer(sp->aVertex, 3, GL_FLOAT, false, 0, (void*)0);
+    glVertexAttribPointer(sp->aNormal, 3, GL_FLOAT, false, 0, (void*)vSize);
     if(hasTexture) {
-        glVertexAttribPointer(sp->a("texCoord"), 2, GL_FLOAT, false, 0, (void*)(vSize + nSize));
-        glUniform1i(sp->u("textureMap"), 0);
+        glVertexAttribPointer(sp->aTexCoord, 2, GL_FLOAT, false, 0, (void*)(vSize + nSize));
+        glUniform1i(sp->uTextureMap, 0);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texName);
     }
 
     glDrawArrays(GL_TRIANGLES, 0, count);
 
-    glDisableVertexAttribArray(sp->a("vertex"));
-    glDisableVertexAttribArray(sp->a("normal"));
+    glDisableVertexAttribArray(sp->aVertex);
+    glDisableVertexAttribArray(sp->aNormal);
     if(hasTexture) {
-        glDisableVertexAttribArray(sp->a("texCoord"));
+        glDisableVertexAttribArray(sp->aTexCoord);
     }
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -109,16 +109,17 @@ void Drawable::loadTexture(const char* filename) {
 
 void Bounceable::updateBouncePosition(double timeSinceLastDraw) {
 
-        if(bouncingUp && currentBouncePosition >= 1.0) {
-            bouncingUp = false;
-        }
-        if(!bouncingUp && currentBouncePosition <= 0.0) {
-            bouncingUp = true;
-        }
-
-        if(bouncingUp) {
-            currentBouncePosition += timeSinceLastDraw;
-        } else {
-            currentBouncePosition -= timeSinceLastDraw;
-        }
+    if(bouncingUp && currentBouncePosition >= 1.0) {
+        bouncingUp = false;
     }
+    if(!bouncingUp && currentBouncePosition <= 0.0) {
+        bouncingUp = true;
+    }
+
+    if(bouncingUp) {
+        currentBouncePosition += timeSinceLastDraw;
+    } else {
+        currentBouncePosition -= timeSinceLastDraw;
+    }
+}
+

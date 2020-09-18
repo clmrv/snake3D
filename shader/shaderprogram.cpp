@@ -118,6 +118,14 @@ ShaderProgram::ShaderProgram(const char* vertexShaderFile,const char* geometrySh
 		delete []infoLog;
 	}
 
+	uTextureMap = glGetUniformLocation(shaderProgram, "textureMap");
+	uP = glGetUniformLocation(shaderProgram, "P");
+	uV = glGetUniformLocation(shaderProgram, "V");
+	uM = glGetUniformLocation(shaderProgram, "M");
+	aVertex = glGetAttribLocation(shaderProgram, "vertex");
+	aNormal = glGetAttribLocation(shaderProgram, "normal");
+	aTexCoord = glGetAttribLocation(shaderProgram, "texCoord");
+
 	printf("Shader program created \n");
 }
 

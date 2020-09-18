@@ -73,20 +73,20 @@ void Graphics::draw(double timeSinceLastDraw) {
     // Y - góra (+)   <=> dół (-)
     // Z - bliżej (+) <=> dalej (-)
 
-    glm::mat4 P=glm::perspective(50.0f*PI/180.0f, 1.0f, 0.01f, 90.0f); //Wylicz macierz rzutowania
+    glm::mat4 P=glm::perspective(50.0f*PI/180.0f, aspectRatio, 0.01f, 90.0f); //Wylicz macierz rzutowania
     glm::mat4 M=glm::mat4(1.0f);
     
     mat4 baseM = mat4(1.0f);
 
     sp->use();
-    glUniformMatrix4fv(sp->u("P"),1,false,glm::value_ptr(P));
-    glUniformMatrix4fv(sp->u("V"),1,false,glm::value_ptr(V));
-    //glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
+    glUniformMatrix4fv(sp->uP,1,false,glm::value_ptr(P));
+    glUniformMatrix4fv(sp->uV,1,false,glm::value_ptr(V));
+    //glUniformMatrix4fv(sp->uM,1,false,glm::value_ptr(M));
 
     // Grass background
     M = translate(baseM, vec3(-5, -0.11f, -5));
     M = scale(M, vec3(30.0f, 1.0f, 30.0f));
-    glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
+    glUniformMatrix4fv(sp->uM,1,false,glm::value_ptr(M));
     grass->draw(sp);
 
 
@@ -104,7 +104,7 @@ void Graphics::draw(double timeSinceLastDraw) {
             {
                 M = translate(baseM, vec3( -x *3.0, 0.5f, y * 3.0 - 20));
                 M = scale(M, vec3(0.45f, 0.45f, 0.45f));
-                glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
+                glUniformMatrix4fv(sp->uM,1,false,glm::value_ptr(M));
                 stone->draw(sp);
             }
 
@@ -117,7 +117,7 @@ void Graphics::draw(double timeSinceLastDraw) {
                 M = rotate(M, -PI/2.0f * game->getBodyDir(y,x), vec3(0.0f, 1.0f, 0.0f));
                 M = scale(M, vec3(1.0f, 1.0f, 1.5f));
                 M = rotate(M, -PI/2.0f, vec3(1.0f, 0.0f, 0.0f));
-                glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
+                glUniformMatrix4fv(sp->uM,1,false,glm::value_ptr(M));
                 tail->draw(sp);
             }
 
@@ -130,10 +130,8 @@ void Graphics::draw(double timeSinceLastDraw) {
                 apple->updateBouncePosition(timeSinceLastDraw);
                 M = translate(M, vec3(0.0f, 0.05f + 0.8f * apple->currentBouncePosition, 0.0));
 
-                M = rotate(M, -PI/2.0f, vec3(1.0f, 0.0f, 0.0f));
-                //M = scale(M, vec3(0.07f, 0.25f, 0.07f));
-                M = scale(M, vec3(0.02f, 0.02f, 0.02f));
-                glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
+                M = rotate(M, PI/2.0f, vec3(0.0, 1.0f, 0.0f));
+                glUniformMatrix4fv(sp->uM,1,false,glm::value_ptr(M));
                 apple->draw(sp);
             }
 
@@ -144,7 +142,7 @@ void Graphics::draw(double timeSinceLastDraw) {
                 M = rotate(M, PI, vec3(1.0f, 0.0f, 0.0f));
                 M = rotate(M, game->getHeadDir()*-PI/2.0f, vec3(0.0f, 1.0f, 0.0f));
                 M = scale(M, vec3(0.35f, 0.35f, 0.35f));
-                glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
+                glUniformMatrix4fv(sp->uM,1,false,glm::value_ptr(M));
                 head->draw(sp);
                 continue;
             }
@@ -158,7 +156,7 @@ void Graphics::draw(double timeSinceLastDraw) {
                     M = rotate(M, -PI/2.0f * game->getBendBodyDir(y,x), vec3(0.0f, 1.0f, 0.0f));
                     //M = scale(M, vec3(1.0f, 1.0f, 1.5f));
                     M = rotate(M, -PI/2.0f, vec3(0.0f, 0.0f, 1.0f));
-                    glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
+                    glUniformMatrix4fv(sp->uM,1,false,glm::value_ptr(M));
                     bendbody->draw(sp);
                     /*
                         na razie zgiete czesci sa za dlugie i nachodza na bloczki obok
@@ -174,7 +172,7 @@ void Graphics::draw(double timeSinceLastDraw) {
                     M = scale(M, vec3(1.0f, 1.0f, 1.5f));
                     M = rotate(M, PI/2.0f, vec3(1.0f, 0.0f, 0.0f));
                     
-                    glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
+                    glUniformMatrix4fv(sp->uM,1,false,glm::value_ptr(M));
                     body->draw(sp);
                 }
             }

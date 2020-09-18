@@ -8,8 +8,6 @@
 
 using namespace std;
 
-float aspectRatio = 1;
-
 Game* game;
 Graphics* graphics;
 
@@ -65,7 +63,7 @@ void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods) {
 // Zmiana rozmiaru okna
 void windowResizeCallback(GLFWwindow* window,int width,int height) {
     if (height==0) return;
-    aspectRatio = (float)width / (float)height;
+    graphics->aspectRatio = (float)width / (float)height;
     glViewport(0, 0, width, height);
 }
 

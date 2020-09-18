@@ -55,6 +55,9 @@ public:
     /// Rysuje klatkę animacji
     void draw(double timeSinceLastDraw = 0);
 
+    /// Proporcje obrazu
+    float aspectRatio = 1.0;
+    
     vec3 cam = vec3(-8, -18.0, -1);
 
 };
