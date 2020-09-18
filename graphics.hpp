@@ -33,8 +33,8 @@ private:
     /// Przykładowy obiekt do narysowania
     Drawable *d;
     Drawable *apple;
+    Drawable *stone;
     Drawable *grass;
-    Drawable *dirt;
     Drawable *body;
     Drawable *tail;
     Drawable *bendbody;

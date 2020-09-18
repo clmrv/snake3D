@@ -24,11 +24,11 @@ Graphics::Graphics(GLFWwindow* window, Game* game) {
     apple = new Drawable("./objects/apple_red.obj");
     apple->loadTexture("./objects/apple_red.png");
 
+    stone = new Drawable("./objects/stones.obj");
+    stone->loadTexture("./objects/stones.png");
+
     grass = new Drawable("./objects/grass.obj");
     grass->loadTexture("./objects/grass.png");
-
-    dirt = new Drawable("./objects/dirt.obj");
-    dirt->loadTexture("./objects/dirt.png");
 
     head = new Drawable("./objects/head.obj");
 
@@ -83,11 +83,11 @@ void Graphics::draw() {
     glUniformMatrix4fv(sp->u("V"),1,false,glm::value_ptr(V));
     //glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
 
-    // Dirt
+    // Grass background
     M = translate(baseM, vec3(-5, -0.11f, -5));
     M = scale(M, vec3(30.0f, 1.0f, 30.0f));
     glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
-    dirt->draw(sp);
+    grass->draw(sp);
 
 
 
@@ -100,14 +100,12 @@ void Graphics::draw() {
         {
             // WARNING continue; in head
 
-
-            // grass field
+            // stone field
             {
-                M = translate(baseM, vec3( -x *3.0, -0.1f, y * 3.0 - 20));
-                M = scale(M, vec3(0.009f, 0.009f, 0.009f));
-                M = rotate(M, -PI/2.0f, vec3(1.0f, 0, 0));
+                M = translate(baseM, vec3( -x *3.0, 0.5f, y * 3.0 - 20));
+                M = scale(M, vec3(0.45f, 0.45f, 0.45f));
                 glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
-                grass->draw(sp);
+                stone->draw(sp);
             }
 
             
