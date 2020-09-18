@@ -135,8 +135,9 @@ void Graphics::draw() {
             if (gameTable[y][x] == game->getSnakeLength())
             {
                 M = translate(baseM, vec3( -x *3.0, 0.0, y * 3.0 - 20));
+                M = rotate(M, PI, vec3(1.0f, 0.0f, 0.0f));
                 M = rotate(M, game->getHeadDir()*-PI/2.0f, vec3(0.0f, 1.0f, 0.0f));
-                M = scale(M, vec3(2.0f, 1.0f, 1.0f));
+                M = scale(M, vec3(0.5f, 0.5f, 0.5f));
                 glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
                 head->draw(sp);
                 continue;

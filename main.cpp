@@ -120,6 +120,8 @@ int main() {
     game->showGameTable();
     game->initSnake();
 
+    int frames = 0;
+
     glfwSetTime(0);
     while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
@@ -129,7 +131,10 @@ int main() {
                 game->showGameTable();
             }
             glfwSetTime(0);
+            printf("FPS: %i\n", frames);
+            frames = 0;
         }
+        frames++;
         graphics->draw();
 		glfwPollEvents();
 	}
