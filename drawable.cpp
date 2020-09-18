@@ -106,3 +106,19 @@ void Drawable::loadTexture(const char* filename) {
 
     hasTexture = true;
 }
+
+void Bounceable::updateBouncePosition(double timeSinceLastDraw) {
+
+        if(bouncingUp && currentBouncePosition >= 1.0) {
+            bouncingUp = false;
+        }
+        if(!bouncingUp && currentBouncePosition <= 0.0) {
+            bouncingUp = true;
+        }
+
+        if(bouncingUp) {
+            currentBouncePosition += timeSinceLastDraw;
+        } else {
+            currentBouncePosition -= timeSinceLastDraw;
+        }
+    }

@@ -21,7 +21,7 @@ Graphics::Graphics(GLFWwindow* window, Game* game) {
     d = new Drawable("./objects/cube.obj");
     d->loadTexture("./objects/cube.png");
 
-    apple = new Drawable("./objects/apple_red.obj");
+    apple = new Bounceable("./objects/apple_red.obj");
     apple->loadTexture("./objects/apple_red.png");
 
     stone = new Drawable("./objects/stones.obj");
@@ -51,7 +51,7 @@ Graphics::~Graphics() {
 
 }
 
-void Graphics::draw() {
+void Graphics::draw(double timeSinceLastDraw) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // glm::mat4 V=glm::lookAt(
@@ -125,6 +125,11 @@ void Graphics::draw() {
             if (gameTable[y][x] == -1)
             {
                 M = translate(baseM, vec3( -x *3.0, 0.0, y * 3.0 - 20));
+
+                // "Bounce animation"
+                apple->updateBouncePosition(timeSinceLastDraw);
+                M = translate(M, vec3(0.0f, 0.05f + 0.8f * apple->currentBouncePosition, 0.0));
+
                 M = rotate(M, -PI/2.0f, vec3(1.0f, 0.0f, 0.0f));
                 //M = scale(M, vec3(0.07f, 0.25f, 0.07f));
                 M = scale(M, vec3(0.02f, 0.02f, 0.02f));

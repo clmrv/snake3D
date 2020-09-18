@@ -34,4 +34,19 @@ struct Drawable {
     void draw(ShaderProgram *sp);
 };
 
+struct Bounceable: Drawable {
+
+    // Obecna odległość od podłoża
+    double currentBouncePosition = 0.0;
+
+    // Informacja czy ruch odbywa się w górę czy w dół
+    bool bouncingUp = true;
+
+    Bounceable(const char* filename) : Drawable(filename) { }
+
+    // Zaktualizuj pozycję obiektu
+    void updateBouncePosition(double timeSinceLastDraw);
+
+};
+
 #endif

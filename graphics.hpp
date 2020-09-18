@@ -32,7 +32,7 @@ private:
 
     /// Przykładowy obiekt do narysowania
     Drawable *d;
-    Drawable *apple;
+    Bounceable *apple;
     Drawable *stone;
     Drawable *grass;
     Drawable *body;
@@ -53,7 +53,7 @@ public:
     ~Graphics();
 
     /// Rysuje klatkę animacji
-    void draw();
+    void draw(double timeSinceLastDraw = 0);
 
     vec3 cam = vec3(-8, -18.0, -1);
 

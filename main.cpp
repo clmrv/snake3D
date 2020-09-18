@@ -121,10 +121,13 @@ int main() {
     game->initSnake();
 
     int frames = 0;
+    double previousTime = 0;
+    double timeDelta;
 
     glfwSetTime(0);
     while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
+        timeDelta = glfwGetTime() - previousTime;
         if(glfwGetTime() >= 1) {
             if(!game->isGameOver()) {
                 game->forward();
@@ -135,7 +138,8 @@ int main() {
             frames = 0;
         }
         frames++;
-        graphics->draw();
+        previousTime = glfwGetTime();
+        graphics->draw(timeDelta);
 		glfwPollEvents();
 	}
 
