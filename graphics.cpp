@@ -33,10 +33,13 @@ Graphics::Graphics(GLFWwindow* window, Game* game) {
     head = new Drawable("./objects/head.obj");
 
     body = new Drawable("./objects/cylinder.obj");
+    body->loadTexture("./objects/snake_skin.png");
 
-    bendbody = new Drawable("./objects/bend.obj");
+    bendbody = new Drawable("./objects/bend2.obj");
+    bendbody->loadTexture("./objects/snake_skin.png");
 
     tail = new Drawable("./objects/tail.obj");
+    tail->loadTexture("./objects/snake_skin.png");
 
 
 }
@@ -134,10 +137,10 @@ void Graphics::draw() {
             // snake head
             if (gameTable[y][x] == game->getSnakeLength())
             {
-                M = translate(baseM, vec3( -x *3.0, 0.0, y * 3.0 - 20));
+                M = translate(baseM, vec3( -x *3.0 +0.2, 0.0, y * 3.0 - 21.5));
                 M = rotate(M, PI, vec3(1.0f, 0.0f, 0.0f));
                 M = rotate(M, game->getHeadDir()*-PI/2.0f, vec3(0.0f, 1.0f, 0.0f));
-                M = scale(M, vec3(0.5f, 0.5f, 0.5f));
+                M = scale(M, vec3(0.35f, 0.35f, 0.35f));
                 glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
                 head->draw(sp);
                 continue;
@@ -148,12 +151,17 @@ void Graphics::draw() {
                 if (game->getBendBodyDir(y, x) >=0)
                 {
                     // parts which bends
-                    M = translate(baseM, vec3( -x *3.0, 3.0, y * 3.0 - 20));
+                    M = translate(baseM, vec3( -x *3.0, 1.0, y * 3.0 - 20));
                     M = rotate(M, -PI/2.0f * game->getBendBodyDir(y,x), vec3(0.0f, 1.0f, 0.0f));
-                    M = scale(M, vec3(1.0f, 1.0f, 1.5f));
-                    M = rotate(M, PI/2.0f, vec3(1.0f, 0.0f, 0.0f));
+                    //M = scale(M, vec3(1.0f, 1.0f, 1.5f));
+                    M = rotate(M, -PI/2.0f, vec3(0.0f, 0.0f, 1.0f));
                     glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
                     bendbody->draw(sp);
+                    /*
+                        na razie zgiete czesci sa za dlugie i nachodza na bloczki obok
+                        moze nie bedzie tego widac po zmianie shadera
+                        jezeli bedzie, to sie skroci
+                    */
                 }
                 else
                 {
