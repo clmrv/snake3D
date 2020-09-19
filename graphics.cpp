@@ -30,7 +30,8 @@ Graphics::Graphics(GLFWwindow* window, Game* game) {
     grass = new Drawable("./objects/grass.obj");
     grass->loadTexture("./objects/grass.png");
 
-    head = new Drawable("./objects/head.obj");
+    head = new Drawable("./objects/head2.obj");
+    head->loadTexture("./objects/cube.png");
 
     body = new Drawable("./objects/cylinder.obj");
     body->loadTexture("./objects/snake_skin.png");
@@ -138,10 +139,9 @@ void Graphics::draw(double timeSinceLastDraw) {
             // snake head
             if (gameTable[y][x] == game->getSnakeLength())
             {
-                M = translate(baseM, vec3( -x *3.0 +0.2, 0.0, y * 3.0 - 21.5));
-                M = rotate(M, PI, vec3(1.0f, 0.0f, 0.0f));
+                M = translate(baseM, vec3( -x * 3.0, 1.0, y * 3.0 - 20));
                 M = rotate(M, game->getHeadDir()*-PI/2.0f, vec3(0.0f, 1.0f, 0.0f));
-                M = scale(M, vec3(0.35f, 0.35f, 0.35f));
+                M = translate(M, vec3(0.0f, 0.0f, -0.5f));
                 glUniformMatrix4fv(sp->uM,1,false,glm::value_ptr(M));
                 head->draw(sp);
                 continue;
