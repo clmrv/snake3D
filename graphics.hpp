@@ -47,6 +47,15 @@ private:
 
     Game* game;
 
+    /// Pozycje świateł
+    float lps[20] = {
+        -8, -2, 8, 1,
+        -8, -2, -38, 1,
+        38, -2, 8, 1,
+        38, -2, -38, 1,
+        15, -35, -20, 1
+    };
+
     
 public:
     /// Inicjalizuj grafikę w danym oknie, odbierz pointer na tabele z pozycja snake

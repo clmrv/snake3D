@@ -94,6 +94,7 @@ void Graphics::draw(double timeSinceLastDraw) {
     sp->use();
     glUniformMatrix4fv(sp->uP,1,false,glm::value_ptr(P));
     glUniformMatrix4fv(sp->uV,1,false,glm::value_ptr(V));
+    glUniform4fv(sp->u("lps"), 5, lps);
 
     // Grass background
     M = translate(baseM, vec3(8, -0.11f, -16));
