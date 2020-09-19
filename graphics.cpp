@@ -47,6 +47,13 @@ Graphics::Graphics(GLFWwindow* window, Game* game) {
     tail = new Drawable("./objects/tail.obj");
     tail->loadTexture("./objects/snake_skin.png");
 
+    // "Game over" text
+    gameover = new Text("./objects/gameover.obj", 2.0, 30.0);
+    gameover->loadTexture("./objects/text.png");
+
+    // "You won!" text
+    youwon = new Text("./objects/youwon.obj", 2.0, 30.0);
+    youwon->loadTexture("./objects/text.png");
 
 }
 
@@ -87,28 +94,70 @@ void Graphics::draw(double timeSinceLastDraw) {
     sp->use();
     glUniformMatrix4fv(sp->uP,1,false,glm::value_ptr(P));
     glUniformMatrix4fv(sp->uV,1,false,glm::value_ptr(V));
-    //glUniformMatrix4fv(sp->uM,1,false,glm::value_ptr(M));
 
     // Grass background
     M = translate(baseM, vec3(8, -0.11f, -16));
     M = scale(M, vec3(30.0f, 1.0f, 30.0f));
-    glUniformMatrix4fv(sp->uM,1,false,glm::value_ptr(M));
-    grass->draw(sp);
+    grass->draw(sp, M);
 
     // Plants
     plant1->updateBouncePosition(timeSinceLastDraw / 3.0);
     M = translate(baseM, vec3(-4.0f, -0.2f, -21.0f));
     M = scale(M, vec3(35.0f, 35.0f, 35.0f));
     M = rotate(M, (-2*PI)/24.0f + ((float)plant1->currentBouncePosition*PI)/24.0f, vec3(1.0f, 0.0f, 0.0f));
-    glUniformMatrix4fv(sp->uM,1,false,glm::value_ptr(M));
-    plant1->draw(sp);
+    plant1->draw(sp, M);
 
     plant2->updateBouncePosition(timeSinceLastDraw / 5.0);
     M = translate(baseM, vec3(8.0f, 1.0f, -30.0f));
     M = scale(M, vec3(35.0f, 35.0f, 35.0f));
     M = rotate(M, (-2*PI)/24.0f + ((float)plant2->currentBouncePosition*PI)/24.0f, vec3(0.0f, 0.0f, 1.0f));
-    glUniformMatrix4fv(sp->uM,1,false,glm::value_ptr(M));
-    plant2->draw(sp);
+    plant2->draw(sp, M);
+
+    // "Game over" text
+    if(game->isGameOver()) {
+
+        gameover->updatePosition(timeSinceLastDraw * 28);
+        M = translate(baseM, vec3(-1.0f, gameover->currentHeight, -15.0f));
+
+        // Bounce
+        if(gameover->currentHeight <= gameover->minHeight) {
+            gameover->updateBouncePosition(timeSinceLastDraw);
+            M = translate(M, vec3(0.0f, 0.5f + sin(1.0f * gameover->currentBouncePosition), 0.0f));
+        }
+
+        M = scale(M, vec3(10.0f, 10.0f, 10.0f));
+        M = rotate(M, -PI/2, vec3(1.0f, 0.0f, 0.0f));
+        gameover->draw(sp, M);
+
+        if(currentScale > 0) {
+            currentScale -= 4.0 * timeSinceLastDraw;
+        } else if(currentScale < 0) {
+            currentScale = 0.0;
+        }
+    }
+
+    // "You won!" text
+    else if(game->isGameWon()) {
+        youwon->updatePosition(timeSinceLastDraw * 28);
+        M = translate(baseM, vec3(14.0f, youwon->currentHeight, -15.0f));
+
+        // Bounce
+        if(youwon->currentHeight <= youwon->minHeight) {
+            youwon->updateBouncePosition(timeSinceLastDraw);
+            M = translate(M, vec3(0.0f, 0.5f + sin(1.0f * youwon->currentBouncePosition), 0.0f));
+        }
+
+        M = scale(M, vec3(9.0f, 9.0f, 9.0f));
+        M = rotate(M, -PI/2, vec3(1.0f, 0.0f, 0.0f));
+        youwon->draw(sp, M);
+
+        if(currentScale > 0) {
+            currentScale -= 4.0 * timeSinceLastDraw;
+        } else if(currentScale < 0) {
+            currentScale = 0.0;
+        }
+    }
+    
 
 
     int max_x = game->getGameTableWidth();
@@ -124,8 +173,7 @@ void Graphics::draw(double timeSinceLastDraw) {
             {
                 M = translate(baseM, vec3(x * 3.0, 0.5f, -y * 3.0));
                 M = scale(M, vec3(0.45f, 0.45f, 0.45f));
-                glUniformMatrix4fv(sp->uM,1,false,glm::value_ptr(M));
-                stone->draw(sp);
+                stone->draw(sp, M);
             }
 
             
@@ -137,8 +185,8 @@ void Graphics::draw(double timeSinceLastDraw) {
                 M = rotate(M, game->getBodyDir(y,x) * -PI/2.0f, vec3(0.0f, 1.0f, 0.0f));
                 M = scale(M, vec3(1.0f, 1.0f, 1.5f));
                 M = rotate(M, PI/2.0f, vec3(1.0f, 0.0f, 0.0f));
-                glUniformMatrix4fv(sp->uM,1,false,glm::value_ptr(M));
-                tail->draw(sp);
+                M = scale(M, vec3(currentScale, currentScale, currentScale));
+                tail->draw(sp, M);
             }
 
             // apple
@@ -148,11 +196,11 @@ void Graphics::draw(double timeSinceLastDraw) {
 
                 // "Bounce animation"
                 apple->updateBouncePosition(timeSinceLastDraw);
-                M = translate(M, vec3(0.0f, 0.05f + 0.8f * apple->currentBouncePosition, 0.0));
+                M = translate(M, vec3(0.0f, 0.55f + sin(0.8f * apple->currentBouncePosition), 0.0));
 
                 M = rotate(M, PI/2.0f, vec3(0.0, 1.0f, 0.0f));
-                glUniformMatrix4fv(sp->uM,1,false,glm::value_ptr(M));
-                apple->draw(sp);
+                M = scale(M, vec3(currentScale, currentScale, currentScale));
+                apple->draw(sp, M);
             }
 
             // snake head
@@ -163,10 +211,11 @@ void Graphics::draw(double timeSinceLastDraw) {
                 M = rotate(M, -PI, vec3(1.0f, 0.0f, 0.0f));
                 M = rotate(M, -PI, vec3(0.0f, 0.0f, 1.0f));
                 M = translate(M, vec3(0.0f, 0.0f, -0.5f));
-                glUniformMatrix4fv(sp->uM,1,false,glm::value_ptr(M));
-                head->draw(sp);
+                M = scale(M, vec3(currentScale, currentScale, currentScale));
+                head->draw(sp, M);
                 continue;
             }
+
             // body
             if (gameTable[y][x] > 1)
             {
@@ -179,8 +228,8 @@ void Graphics::draw(double timeSinceLastDraw) {
                     M = rotate(M, PI/2.0f, vec3(0.0f, 0.0f, 1.0f));
                     M = rotate(M, -PI, vec3(1.0f, 0.0f, 0.0f));
                     M = rotate(M, -PI, vec3(0.0f, 0.0f, 1.0f));
-                    glUniformMatrix4fv(sp->uM,1,false,glm::value_ptr(M));
-                    bendbody->draw(sp);
+                    M = scale(M, vec3(currentScale, currentScale, currentScale));
+                    bendbody->draw(sp, M);
                     /*
                         na razie zgiete czesci sa za dlugie i nachodza na bloczki obok
                         moze nie bedzie tego widac po zmianie shadera
@@ -194,11 +243,12 @@ void Graphics::draw(double timeSinceLastDraw) {
                     M = rotate(M, -PI/2.0f * game->getBodyDir(y,x), vec3(0.0f, 1.0f, 0.0f));
                     M = scale(M, vec3(1.0f, 1.0f, 1.5f));
                     M = rotate(M, PI/2.0f, vec3(1.0f, 0.0f, 0.0f));
+                    M = scale(M, vec3(currentScale, currentScale, currentScale));
                     
-                    glUniformMatrix4fv(sp->uM,1,false,glm::value_ptr(M));
-                    body->draw(sp);
+                    body->draw(sp, M);
                 }
             }
+            
         }
     }
         

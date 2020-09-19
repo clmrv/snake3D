@@ -105,6 +105,9 @@ void Game::forward() {
     if (checkBorderGameOver())
         return;
 
+    if(isGameWon())
+        return;
+
     //Check if stepped on a tile with apple
     if (gameTable[snakePos.y][snakePos.x] == -1) {
         snakeLength++;    
@@ -136,6 +139,18 @@ void Game::forward() {
 
 bool Game::isGameOver() {
     return gameOver;
+}
+
+bool Game::isGameWon() {
+    int x, y;
+    for (y = 0; y < gameTableSize.y; y++) {
+        for (x = 0; x < gameTableSize.x; x++) {
+            if (gameTable[y][x] <= 0) {
+                return false;
+            }
+        }
+    }
+    return true;    
 }
 
 int** Game::getGameTablePtr() {

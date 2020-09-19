@@ -9,18 +9,13 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "glm/glm.hpp"
-#include "glm/gtc/type_ptr.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "shader/constants.h"
 #include "shader/shaderprogram.h"
 
-
 #include "drawable.hpp"
-
 #include "game.hpp"
 
-struct Drawable;
-struct DrawableArray;
 
 class Graphics {
 private:
@@ -30,7 +25,7 @@ private:
     /// Tablica z "Vertex Array Object Names"
     GLuint vba;
 
-    /// Przykładowy obiekt do narysowania
+    /// Obiekty do narysowania
     Drawable *d;
     Bounceable *apple;
     Drawable *stone;
@@ -41,6 +36,12 @@ private:
     Drawable *tail;
     Drawable *bendbody;
     Drawable *head;
+
+    Text *gameover;
+    Text *youwon;
+
+    /// Skala do zmniejszania węża i jabłka przy wyświetlaniu napisu
+    float currentScale = 1.0;    
 
     ShaderProgram *sp;
 
@@ -55,7 +56,7 @@ public:
     ~Graphics();
 
     /// Rysuje klatkę animacji
-    void draw(double timeSinceLastDraw = 0);
+    void draw(double timeSinceLastDraw = 0.1);
 
     /// Proporcje obrazu
     float aspectRatio = 1.0;

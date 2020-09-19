@@ -149,7 +149,7 @@ int main() {
 	{
         timeDelta = glfwGetTime() - previousTime;
         if(glfwGetTime() >= 1) {
-            if(!game->isGameOver()) {
+            if(!game->isGameOver() && !game->isGameWon()) {
                 game->forward();
                 game->showGameTable();
             }

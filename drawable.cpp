@@ -52,7 +52,10 @@ Drawable::~Drawable() {
     }
 }
 
-void Drawable::draw(ShaderProgram *sp) {
+void Drawable::draw(ShaderProgram *sp, mat4 &M) {
+
+    glUniformMatrix4fv(sp->uM, 1, false, glm::value_ptr(M));
+
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 
     glEnableVertexAttribArray(sp->aVertex);
@@ -123,3 +126,8 @@ void Bounceable::updateBouncePosition(double timeSinceLastDraw) {
     }
 }
 
+void Text::updatePosition(float by) {
+    if(currentHeight > minHeight) {
+        currentHeight -= by;
+    }
+}

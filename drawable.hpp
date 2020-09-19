@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 #include "shader/shaderprogram.h"
 #include "glm/glm.hpp"
+#include "glm/gtc/type_ptr.hpp"
 #include "tiny_obj_loader.h"
 #include "lodepng/lodepng.h"
 
@@ -31,8 +32,9 @@ struct Drawable {
     void loadTexture(const char* filename);
     
     // Rysuj obiekt na scenie
-    void draw(ShaderProgram *sp);
+    void draw(ShaderProgram *sp, mat4 &M);
 };
+
 
 struct Bounceable: Drawable {
 
@@ -46,6 +48,23 @@ struct Bounceable: Drawable {
 
     // Zaktualizuj pozycję obiektu
     void updateBouncePosition(double timeSinceLastDraw);
+
+};
+
+
+struct Text: Bounceable {
+    float minHeight;
+
+    // Obecna odległość od podłoża
+    float currentHeight = 0.0;
+
+    Text(const char* filename, float minHeight = 0.0, float maxHeight = 20.0) : Bounceable(filename) {
+        this->minHeight = minHeight;
+        this->currentHeight = maxHeight;
+    }
+
+    // Zaktualizuj pozycję obiektu
+    void updatePosition(float by);
 
 };
 

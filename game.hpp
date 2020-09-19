@@ -29,6 +29,7 @@ public:
     void forward();
     
     bool isGameOver();
+    bool isGameWon();
     int** getGameTablePtr();   // info for drawing
     int getGameTableWidth();
     int getGameTableHeight();
