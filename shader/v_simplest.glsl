@@ -21,7 +21,7 @@ void main(void) {
 
     // Pozycja światła w przestrzeni świata
     //vec4 lp = vec4(20, -120, 50, 1);
-    vec4 lp = vec4(-4, -30, 8, 1);
+    vec4 lp = vec4(15, -35, -20, 1);
 
     
     // Znormalizowany wektor do światła w przestrzeni oka

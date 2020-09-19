@@ -52,6 +52,28 @@ void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods) {
         case GLFW_KEY_E:
             graphics->cam = glm::vec3(graphics->cam.x, graphics->cam.y, graphics->cam.z + 1);
             break;
+        case GLFW_KEY_H:
+            graphics->eye = glm::vec3(graphics->eye.x - 1, graphics->eye.y, graphics->eye.z);
+            break;
+        case GLFW_KEY_K:
+            graphics->eye = glm::vec3(graphics->eye.x + 1, graphics->eye.y, graphics->eye.z);
+            break;
+        case GLFW_KEY_U:
+            graphics->eye = glm::vec3(graphics->eye.x, graphics->eye.y - 1, graphics->eye.z);
+            break;
+        case GLFW_KEY_J:
+            graphics->eye = glm::vec3(graphics->eye.x, graphics->eye.y + 1, graphics->eye.z);
+            break;
+        case GLFW_KEY_Y:
+            graphics->eye = glm::vec3(graphics->eye.x, graphics->eye.y, graphics->eye.z - 1);
+            break;
+        case GLFW_KEY_I:
+            graphics->eye = glm::vec3(graphics->eye.x, graphics->eye.y, graphics->eye.z + 1);
+            break;
+        case GLFW_KEY_P:
+            printf("CAM: %f, %f, %f\n", graphics->cam.x, graphics->cam.y, graphics->cam.z);
+            printf("EYE: %f, %f, %f\n", graphics->eye.x, graphics->eye.y, graphics->eye.z);
+            break; 
         default:
             break;
         }
@@ -89,7 +111,7 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glewExperimental = true;
 
-	window = glfwCreateWindow(500, 500, "Snake 3D", NULL, NULL);
+	window = glfwCreateWindow(800, 800, "Snake 3D", NULL, NULL);
 
     // Jesli nie mozna stworzyc okna
     if (!window) {

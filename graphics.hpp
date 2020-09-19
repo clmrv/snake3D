@@ -35,6 +35,8 @@ private:
     Bounceable *apple;
     Drawable *stone;
     Drawable *grass;
+    Bounceable *plant1;
+    Bounceable *plant2;
     Drawable *body;
     Drawable *tail;
     Drawable *bendbody;
@@ -58,7 +60,10 @@ public:
     /// Proporcje obrazu
     float aspectRatio = 1.0;
     
-    vec3 cam = vec3(-8, -18.0, -1);
+    // vec3 eye = vec3(15, 35, 32);
+    // vec3 cam = vec3(11, -39, -1);
+    vec3 eye = vec3(15, 35, 5);
+    vec3 cam = vec3(13, -4, -14);
 
 };
 
