@@ -35,17 +35,23 @@ Graphics::Graphics(GLFWwindow* window, Game* game) {
     plant2 = new Bounceable("./objects/plant.obj");
     plant2->loadTexture("./objects/plant2.png");
 
-    head = new Drawable("./objects/head2.obj");
-    head->loadTexture("./objects/cube.png");
+    head = new Drawable("./objects/head_wo_tongue_eyes.obj");
+    head->loadTexture("./objects/snake_skin256.png");
+
+    tongue = new Drawable("./objects/tongue.obj");
+    tongue->loadTexture("./objects/pink_tongue.png");
+
+    eyes_teeth = new Drawable("./objects/teeth_eyes_inside.obj");
+    eyes_teeth->loadTexture("./objects/black.png");
 
     body = new Drawable("./objects/cylinder.obj");
-    body->loadTexture("./objects/snake_skin.png");
+    body->loadTexture("./objects/snake_skin128.png");
 
     bendbody = new Drawable("./objects/bend2.obj");
-    bendbody->loadTexture("./objects/snake_skin.png");
+    bendbody->loadTexture("./objects/snake_skin64.png");
 
     tail = new Drawable("./objects/tail.obj");
-    tail->loadTexture("./objects/snake_skin.png");
+    tail->loadTexture("./objects/snake_skin128.png");
 
     // "Game over" text
     gameover = new Text("./objects/gameover.obj", 2.0, 30.0);
@@ -214,6 +220,8 @@ void Graphics::draw(double timeSinceLastDraw) {
                 M = translate(M, vec3(0.0f, 0.0f, -0.5f));
                 M = scale(M, vec3(currentScale, currentScale, currentScale));
                 head->draw(sp, M);
+                tongue->draw(sp, M);
+                eyes_teeth->draw(sp, M);
                 continue;
             }
 

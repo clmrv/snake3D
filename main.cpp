@@ -148,7 +148,7 @@ int main() {
     while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
         timeDelta = glfwGetTime() - previousTime;
-        if(glfwGetTime() >= 1) {
+        if(glfwGetTime() >= 0.5) {
             if(!game->isGameOver() && !game->isGameWon()) {
                 game->forward();
                 game->showGameTable();

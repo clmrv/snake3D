@@ -36,6 +36,8 @@ private:
     Drawable *tail;
     Drawable *bendbody;
     Drawable *head;
+    Drawable *tongue;
+    Drawable *eyes_teeth;
 
     Text *gameover;
     Text *youwon;
