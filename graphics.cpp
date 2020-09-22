@@ -47,7 +47,7 @@ Graphics::Graphics(GLFWwindow* window, Game* game) {
     body = new Drawable("./objects/cylinder.obj");
     body->loadTexture("./objects/snake_skin128.png");
 
-    bendbody = new Drawable("./objects/bend2.obj");
+    bendbody = new Drawable("./objects/bend.obj");
     bendbody->loadTexture("./objects/snake_skin64.png");
 
     tail = new Drawable("./objects/tail.obj");
