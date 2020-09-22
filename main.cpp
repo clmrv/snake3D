@@ -12,14 +12,13 @@ Game* game;
 Graphics* graphics;
 
 
-// Obsługa bledow
+// Obsługa błędów
 void error_callback(int error, const char* description) {
     cout << "Error: " << description << endl;
 }
 
-
 // Obsługa klawiszy
-void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods) {
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (action == GLFW_PRESS) {
         switch(key) {
         case GLFW_KEY_LEFT:
@@ -77,14 +76,14 @@ void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods) {
         default:
             break;
         }
-    } else if (action==GLFW_RELEASE) {
+    } else if (action == GLFW_RELEASE) {
         
     }
 }
 
 // Zmiana rozmiaru okna
-void windowResizeCallback(GLFWwindow* window,int width,int height) {
-    if (height==0) return;
+void windowResizeCallback(GLFWwindow* window, int width, int height) {
+    if (height == 0) return;
     graphics->aspectRatio = (float)width / (float)height;
     glViewport(0, 0, width, height);
 }
@@ -97,7 +96,7 @@ int main() {
     GLFWwindow* window;
 
     // Obsługa błedow
-	glfwSetErrorCallback(error_callback);//Zarejestruj procedurę obsługi błędów
+	glfwSetErrorCallback(error_callback);
 
     // Inicjalizacja GLFW
 	if (!glfwInit()) {
@@ -132,8 +131,6 @@ int main() {
 		exit(EXIT_FAILURE);
 	}
 
-
-    
     game = new Game(10, 10);
     graphics = new Graphics(window, game);
 
@@ -151,10 +148,10 @@ int main() {
         if(glfwGetTime() >= 0.5) {
             if(!game->isGameOver() && !game->isGameWon()) {
                 game->forward();
-                game->showGameTable();
+                // game->showGameTable();
             }
             glfwSetTime(0);
-            printf("FPS: %i\n", frames);
+            // printf("FPS: %i\n", frames * 2);
             frames = 0;
         }
         frames++;
@@ -166,8 +163,8 @@ int main() {
     delete graphics;
     delete game;
 
-    glfwDestroyWindow(window); //Usuń kontekst OpenGL i okno
-	glfwTerminate(); //Zwolnij zasoby zajęte przez GLFW
+    glfwDestroyWindow(window); // Usuń kontekst OpenGL i okno
+	glfwTerminate(); // Zwolnij zasoby zajęte przez GLFW
 	exit(EXIT_SUCCESS);
 
     return 0;

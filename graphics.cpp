@@ -18,9 +18,6 @@ Graphics::Graphics(GLFWwindow* window, Game* game) {
 
 	sp = new ShaderProgram("shader/v_simplest.glsl", NULL, "shader/f_simplest.glsl");
 
-    d = new Drawable("./objects/cube.obj");
-    d->loadTexture("./objects/cube.png");
-
     apple = new Bounceable("./objects/apple_red.obj");
     apple->loadTexture("./objects/apple_red.png");
 
@@ -47,7 +44,7 @@ Graphics::Graphics(GLFWwindow* window, Game* game) {
     body = new Drawable("./objects/cylinder.obj");
     body->loadTexture("./objects/snake_skin128.png");
 
-    bendbody = new Drawable("./objects/bend2.obj");
+    bendbody = new Drawable("./objects/bend.obj");
     bendbody->loadTexture("./objects/snake_skin64.png");
 
     tail = new Drawable("./objects/tail.obj");
@@ -63,7 +60,7 @@ Graphics::Graphics(GLFWwindow* window, Game* game) {
 
 }
 
-// Zwolnienie zasobow
+// Zwolnienie zasobów
 Graphics::~Graphics() {
 
     delete sp;
@@ -73,24 +70,10 @@ Graphics::~Graphics() {
 void Graphics::draw(double timeSinceLastDraw) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // glm::mat4 V=glm::lookAt(
-    //     glm::vec3(-13.5, 40, -6),
-    //     glm::vec3(-13.5, 0.0, -6),
-    //     glm::vec3(0.0, 1.0, 1.0)); //Wylicz macierz widoku
-
-    // glm::mat4 V=glm::lookAt(
-    //     glm::vec3(-13.5, 40, -6),
-    //     cam,
-    //     glm::vec3(0.0, 1.0, 1.0)); //Wylicz macierz widoku
-
     glm::mat4 V=glm::lookAt(
         eye,
-        vec3(13, -4, -14),
-        glm::vec3(0.0, 1.0, 0.0)); //Wylicz macierz widoku
-
-    // X - lewo (-)   <=> prawo (+)
-    // Y - góra (+)   <=> dół (-)
-    // Z - bliżej (+) <=> dalej (-)
+        cam,
+        glm::vec3(0.0, 1.0, 0.0));
 
     glm::mat4 P=glm::perspective(50.0f*PI/180.0f, aspectRatio, 0.01f, 90.0f); //Wylicz macierz rzutowania
     glm::mat4 M=glm::mat4(1.0f);
@@ -101,11 +84,7 @@ void Graphics::draw(double timeSinceLastDraw) {
     glUniformMatrix4fv(sp->uP,1,false,glm::value_ptr(P));
     glUniformMatrix4fv(sp->uV,1,false,glm::value_ptr(V));
 
-
-    lps[0] = cam[0];
-    lps[1] = cam[1];
-    lps[2] = cam[2];
-    glUniform4fv(sp->u("lps"), 5, lps);
+    glUniform4fv(sp->uLps, 5, lps);
 
     // Grass background
     M = translate(baseM, vec3(8, -0.11f, -16));
@@ -179,7 +158,6 @@ void Graphics::draw(double timeSinceLastDraw) {
     {
         for(int x=0; x < max_x; x++)
         {
-            // WARNING continue; in head
 
             // stone field
             {
@@ -187,8 +165,6 @@ void Graphics::draw(double timeSinceLastDraw) {
                 M = scale(M, vec3(0.45f, 0.45f, 0.45f));
                 stone->draw(sp, M);
             }
-
-            
 
             // snake tail
             if (gameTable[y][x] == 1)
@@ -244,11 +220,6 @@ void Graphics::draw(double timeSinceLastDraw) {
                     M = rotate(M, -PI, vec3(0.0f, 0.0f, 1.0f));
                     M = scale(M, vec3(currentScale, currentScale, currentScale));
                     bendbody->draw(sp, M);
-                    /*
-                        na razie zgiete czesci sa za dlugie i nachodza na bloczki obok
-                        moze nie bedzie tego widac po zmianie shadera
-                        jezeli bedzie, to sie skroci
-                    */
                 }
                 else
                 {

@@ -22,7 +22,7 @@ private:
     /// Okno animacji
     GLFWwindow* window;
 
-    /// Tablica z "Vertex Array Object Names"
+    /// Tablica z Vertex Array Object Names
     GLuint vba;
 
     /// Obiekty do narysowania
@@ -72,11 +72,8 @@ public:
     /// Proporcje obrazu
     float aspectRatio = 1.0;
     
-    // vec3 eye = vec3(15, 35, 32);
-    // vec3 cam = vec3(11, -39, -1);
     vec3 eye = vec3(15, 35, 5);
-    vec3 cam = vec3(0, -6, 0);
-
+    vec3 cam = vec3(13, -4, -14);
 };
 
 #endif

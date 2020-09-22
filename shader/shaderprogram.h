@@ -43,6 +43,7 @@ public:
 	GLuint uP;
 	GLuint uV;
 	GLuint uM;
+	GLuint uLps;
 	GLuint aVertex;
 	GLuint aNormal;
 	GLuint aTexCoord;
