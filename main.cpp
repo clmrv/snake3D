@@ -134,7 +134,7 @@ int main() {
     game = new Game(10, 10);
     graphics = new Graphics(window, game);
 
-    game->showGameTable();
+    // game->showGameTable();
     game->initSnake();
 
     int frames = 0;
