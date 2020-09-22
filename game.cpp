@@ -105,9 +105,6 @@ void Game::forward() {
     if (checkBorderGameOver())
         return;
 
-    if(isGameWon())
-        return;
-
     //Check if stepped on a tile with apple
     if (gameTable[snakePos.y][snakePos.x] == -1) {
         snakeLength++;    
@@ -118,6 +115,9 @@ void Game::forward() {
                     gameTable[y][x]++;
         haveEaten = true;
     }
+
+    if(isGameWon())
+        return;
 
     //Update map (remove tail)
     for (int y=0; y<gameTableSize.y; y++)
@@ -142,21 +142,16 @@ bool Game::isGameOver() {
 }
 
 bool Game::isGameWon() {
-    int x, y;
-    for (y = 0; y < gameTableSize.y; y++) {
-        for (x = 0; x < gameTableSize.x; x++) {
-            if (gameTable[y][x] <= 0) {
-                return false;
-            }
-        }
-    }
-    return true;    
+    if (snakeLength >= gameTableSize.x * gameTableSize.y)
+        return true;
+    return false;
 }
 
 int** Game::getGameTablePtr() {
     return gameTable;
 }
 
+// DEBUG
 void Game::showGameTable() {
     for (int i=0; i<2; i++)
         std::cout << std::endl;
@@ -171,6 +166,7 @@ void Game::showGameTable() {
     }
 }
 
+// DEBUG
 void Game::setApple(int y, int x) {
     gameTable[y][x] = -1; 
 }
