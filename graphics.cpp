@@ -18,9 +18,6 @@ Graphics::Graphics(GLFWwindow* window, Game* game) {
 
 	sp = new ShaderProgram("shader/v_simplest.glsl", NULL, "shader/f_simplest.glsl");
 
-    d = new Drawable("./objects/cube.obj");
-    d->loadTexture("./objects/cube.png");
-
     apple = new Bounceable("./objects/apple_red.obj");
     apple->loadTexture("./objects/apple_red.png");
 
