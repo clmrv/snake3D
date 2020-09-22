@@ -85,7 +85,7 @@ void Graphics::draw(double timeSinceLastDraw) {
 
     glm::mat4 V=glm::lookAt(
         eye,
-        cam,
+        vec3(13, -4, -14),
         glm::vec3(0.0, 1.0, 0.0)); //Wylicz macierz widoku
 
     // X - lewo (-)   <=> prawo (+)
@@ -100,6 +100,11 @@ void Graphics::draw(double timeSinceLastDraw) {
     sp->use();
     glUniformMatrix4fv(sp->uP,1,false,glm::value_ptr(P));
     glUniformMatrix4fv(sp->uV,1,false,glm::value_ptr(V));
+
+
+    lps[0] = cam[0];
+    lps[1] = cam[1];
+    lps[2] = cam[2];
     glUniform4fv(sp->u("lps"), 5, lps);
 
     // Grass background

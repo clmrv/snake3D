@@ -33,10 +33,10 @@ void main(void) {
 		// Kosinus kąta między wektorami r i v podniesiony do potęgi
 		rv = pow(clamp(dot(mr, mv), 0, 1), 32); 
 
-		result += (t.rgb * nl * 0.3) + vec3(rv);
+		result += (t.rgb * nl * 0.9) + vec3(rv);
 	}
 
-	float ambient = 0.2;
+	float ambient = 0.0;
 
 	{
 		ml = normalize(l[4]);
@@ -48,7 +48,7 @@ void main(void) {
 		// Kosinus kąta między wektorami r i v podniesiony do potęgi
 		rv = pow(clamp(dot(mr, mv), 0, 1), 32); 
 
-		result += (t.rgb * (nl + ambient)) + vec3(rv);
+		result += (t.rgb * (ambient)) + vec3(rv);
 	}
 
 	pixelColor = vec4(result, t.a);
